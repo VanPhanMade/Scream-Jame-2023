@@ -69,6 +69,11 @@ Saved/*
 # Compiled source files for the engine to use
 Intermediate/*
 Plugins/*/Intermediate/*
+ScreamJam2023/.vscode/*
+ScreamJam2023/Binaries/*
+ScreamJam2023/Intermediate/*
+ScreamJam2023/Saved/*
+ScreamJam2023/Builds/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
