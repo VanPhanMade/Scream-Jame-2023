@@ -13,11 +13,14 @@ class SCREAMJAM2023_API AScreamJamCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
+	/** Constructor */
 	AScreamJamCharacter();
 
+	/** Properties */
 	class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 protected:   
+	/** ACharacter Interface */
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -32,10 +35,30 @@ private:
 	class UInputAction* MoveAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InteractAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* ToggleLightAction;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	/** Components */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FirstPersonCameraComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* CharacterLightMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class USpotLightComponent* CharacterLight;
 
+	/** Variables*/
+	UPROPERTY(EditAnywhere, Category="Variables", meta=(AllowPrivateAccess="true"))
+	class USoundBase* InteractSFX;
+	UPROPERTY(EditAnywhere, Category="Variables", meta=(AllowPrivateAccess="true"))
+	class USoundBase* LightToggleSFX;
+
+	/** Functions */
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	void Interact();
+	void ToggleLight();
+
+	
 };

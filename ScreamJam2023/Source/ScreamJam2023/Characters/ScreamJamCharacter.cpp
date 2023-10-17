@@ -2,21 +2,32 @@
 
 
 #include "ScreamJamCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SpotLightComponent.h"
+#include "Components/StaticMeshComponent.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+
+#include "Sound/SoundBase.h"
 
 AScreamJamCharacter::AScreamJamCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Camera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+
+	CharacterLightMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Spot Light Mesh"));
+	CharacterLightMesh->SetupAttachment(RootComponent);
+
+	CharacterLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("Spot Light"));
+	CharacterLight->SetupAttachment(CharacterLightMesh);
 }
 
 void AScreamJamCharacter::BeginPlay()
@@ -49,6 +60,8 @@ void AScreamJamCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ThisClass::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ThisClass::Interact);
+		EnhancedInputComponent->BindAction(ToggleLightAction, ETriggerEvent::Triggered, this, &ThisClass::ToggleLight);
 	}
 
 }
@@ -73,4 +86,15 @@ void AScreamJamCharacter::Look(const FInputActionValue &Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AScreamJamCharacter::Interact()
+{
+	if(InteractSFX) UGameplayStatics::SpawnSoundAtLocation(this, InteractSFX, GetActorLocation());
+}
+
+void AScreamJamCharacter::ToggleLight()
+{
+	if(LightToggleSFX) UGameplayStatics::SpawnSoundAtLocation(this, LightToggleSFX, GetActorLocation());
+	CharacterLight->ToggleVisibility();
 }
