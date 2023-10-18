@@ -60,5 +60,4 @@ private:
 	void Interact();
 	void ToggleLight();
 
-	
 };

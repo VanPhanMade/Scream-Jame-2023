@@ -3,6 +3,7 @@
 
 #include "ScreamJamCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "../Actors/InteractableObject.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -91,6 +92,25 @@ void AScreamJamCharacter::Look(const FInputActionValue &Value)
 void AScreamJamCharacter::Interact()
 {
 	if(InteractSFX) UGameplayStatics::SpawnSoundAtLocation(this, InteractSFX, GetActorLocation());
+
+	FVector TraceStart{GetPawnViewLocation()};
+	FVector TraceEnd{TraceStart + (GetViewRotation().Vector() * 150.f)};
+
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	FHitResult Hit;
+
+	if(GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_GameTraceChannel1, QueryParams))
+	{
+		AInteractableObject* Interactable = Cast<AInteractableObject>(Hit.GetActor());
+		if(Interactable)
+		{
+			Interactable->Interact();
+		}
+	}
+
 }
 
 void AScreamJamCharacter::ToggleLight()
