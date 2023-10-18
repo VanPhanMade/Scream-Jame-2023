@@ -29,6 +29,8 @@ private:
 	/** Components */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* InteractableObjectMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UBoxComponent* BoxCollider;
 
 	/** Variables */
 	UPROPERTY(EditAnywhere, Category="Variables", meta=(AllowPrivateAccess="true"))

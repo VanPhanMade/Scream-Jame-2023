@@ -6,6 +6,7 @@
 
 #include "Components/WidgetComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 
 #include "Sound/SoundBase.h"
 
@@ -16,6 +17,9 @@ AInteractableObject::AInteractableObject()
 
 	InteractableObjectMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	InteractableObjectMesh->SetupAttachment(RootComponent);
+
+	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
+	BoxCollider->SetupAttachment(RootComponent);
 	
 }
 
