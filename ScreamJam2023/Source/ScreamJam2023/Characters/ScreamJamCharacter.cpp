@@ -97,12 +97,9 @@ void AScreamJamCharacter::Interact()
 {
 	if(!bCanReceiveInput) return; 
 
-	if(InteractSFX) UGameplayStatics::SpawnSoundAtLocation(this, InteractSFX, GetActorLocation());
-
 	FVector TraceStart{GetPawnViewLocation()};
 	FVector TraceEnd{TraceStart + (GetViewRotation().Vector() * 150.f)};
-
-	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
+	//DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
 
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
@@ -113,6 +110,7 @@ void AScreamJamCharacter::Interact()
 		AInteractableObject* Interactable = Cast<AInteractableObject>(Hit.GetActor());
 		if(Interactable)
 		{
+			if(InteractSFX) UGameplayStatics::SpawnSoundAtLocation(this, InteractSFX, GetActorLocation());
 			Interactable->Interact();
 		}
 	}
@@ -122,7 +120,7 @@ void AScreamJamCharacter::Interact()
 void AScreamJamCharacter::ToggleLight()
 {
 	if(!bCanReceiveInput) return; 
-	
+
 	if(LightToggleSFX) UGameplayStatics::SpawnSoundAtLocation(this, LightToggleSFX, GetActorLocation());
 	CharacterLight->ToggleVisibility();
 }
