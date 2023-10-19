@@ -98,7 +98,7 @@ void AScreamJamCharacter::Interact()
 	if(!bCanReceiveInput) return; 
 
 	FVector TraceStart{GetPawnViewLocation()};
-	FVector TraceEnd{TraceStart + (GetViewRotation().Vector() * 150.f)};
+	FVector TraceEnd{TraceStart + (GetViewRotation().Vector() * 200.f)};
 	//DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 2.0f);
 
 	FCollisionQueryParams QueryParams;
