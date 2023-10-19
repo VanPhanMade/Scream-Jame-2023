@@ -54,6 +54,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Variables", meta=(AllowPrivateAccess="true"))
 	class USoundBase* LightToggleSFX;
 
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+	bool bCanReceiveInput = true;
+
 	/** Functions */
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);

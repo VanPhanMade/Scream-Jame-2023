@@ -69,6 +69,8 @@ void AScreamJamCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 void AScreamJamCharacter::Move(const FInputActionValue &Value)
 {
+	if(!bCanReceiveInput) return; 
+
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
 	if (Controller != nullptr)
@@ -80,6 +82,8 @@ void AScreamJamCharacter::Move(const FInputActionValue &Value)
 
 void AScreamJamCharacter::Look(const FInputActionValue &Value)
 {
+	if(!bCanReceiveInput) return; 
+
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
 	if (Controller != nullptr)
@@ -91,6 +95,8 @@ void AScreamJamCharacter::Look(const FInputActionValue &Value)
 
 void AScreamJamCharacter::Interact()
 {
+	if(!bCanReceiveInput) return; 
+
 	if(InteractSFX) UGameplayStatics::SpawnSoundAtLocation(this, InteractSFX, GetActorLocation());
 
 	FVector TraceStart{GetPawnViewLocation()};
@@ -115,6 +121,8 @@ void AScreamJamCharacter::Interact()
 
 void AScreamJamCharacter::ToggleLight()
 {
+	if(!bCanReceiveInput) return; 
+	
 	if(LightToggleSFX) UGameplayStatics::SpawnSoundAtLocation(this, LightToggleSFX, GetActorLocation());
 	CharacterLight->ToggleVisibility();
 }
